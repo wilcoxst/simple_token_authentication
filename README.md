@@ -11,7 +11,7 @@ This gem packages the content of the gist with that modification.
   [original-gist]: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
 
 
-> **DISCLAIMER**: I am not José Valim, nor am I Gonzalo Bulnes. Implementation errors, if any, are mine; and contributions are welcome. -- [SBW][stephen-wilcox]
+> **DISCLAIMER**: I am not José Valim, nor am I Gonzalo Bulnes. -- [SBW][stephen-wilcox]
 
   [josevalim]: https://github.com/josevalim
   [gonzalo-bulnes]: https://github.com/gonzalo-bulnes
