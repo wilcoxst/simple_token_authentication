@@ -1,23 +1,21 @@
 Simple Token Authentication
 ===========================
 
-[![Gem Version](https://badge.fury.io/rb/simple_token_authentication.png)](http://badge.fury.io/rb/simple_token_authentication)
-[![Build Status](https://travis-ci.org/gonzalo-bulnes/simple_token_authentication.png?branch=master)](https://travis-ci.org/gonzalo-bulnes/simple_token_authentication)
-[![Code Climate](https://codeclimate.com/github/gonzalo-bulnes/simple_token_authentication.png)](https://codeclimate.com/github/gonzalo-bulnes/simple_token_authentication)
-[![Dependency Status](https://gemnasium.com/gonzalo-bulnes/simple_token_authentication.svg)](https://gemnasium.com/gonzalo-bulnes/simple_token_authentication)
+Token authentication support has been removed from [Devise][devise] for security reasons. In [this gist][original-gist], Devise's [José Valim][josevalim] explains how token authentication should be performed in order to remain safe.  He suggests using a token along with an email to mitigate timing attacks against the lookup of the token.  Gonzalo Bulnes packaged the gist into the gem simple_token_authentication
 
-Token authentication support has been removed from [Devise][devise] for security reasons. In [this gist][original-gist], Devise's [José Valim][josevalim] explains how token authentication should be performed in order to remain safe.
+I have changed this to use user_id + token instead of email to support authentication without email.
 
-This gem packages the content of the gist.
+This gem packages the content of the gist with that modification.
 
   [devise]: https://github.com/plataformatec/devise
   [original-gist]: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
 
 
-> **DISCLAIMER**: I am not José Valim, nor has he been involved in the gem bundling process. Implementation errors, if any, are mine; and contributions are welcome. -- [GB][gonzalo-bulnes]
+> **DISCLAIMER**: I am not José Valim, nor am I Gonzalo Bulnes. Implementation errors, if any, are mine; and contributions are welcome. -- [SBW][stephen-wilcox]
 
   [josevalim]: https://github.com/josevalim
   [gonzalo-bulnes]: https://github.com/gonzalo-bulnes
+  [stephen-wilcox]: https://github.com/wilcoxst
 
 Installation
 ------------
