@@ -22,22 +22,26 @@ module SimpleTokenAuthentication
     end
 
 
-    # For this example, we are simply using token authentication
-    # via parameters. However, anyone could use Rails's token
-    # authentication features to get the token from a header.
+    # The ID and token can be passed in the header or as parameters.
+    # The header is given precendence.
     def authenticate_entity_from_token!(entity_class)
       # Set the authentication token params if not already present,
       # see http://stackoverflow.com/questions/11017348/rails-api-authentication-by-headers-token
       params_token_name = "#{entity_class.name.singularize.underscore}_token".to_sym
       params_id_name = "#{entity_class.name.singularize.underscore}_id".to_sym
-      if token = params[params_token_name].blank? && request.headers[header_token_name(entity_class)]
-        params[params_token_name] = token
-      end
-      if id = params[params_id_name].blank? && request.headers[header_id_name(entity_class)]
-        params[params_id_name] = id
+
+      if request.headers[header_id_name(entity_class)].blank?
+        id = params[params_id_name]
+      else
+        id = request.headers[header_id_name(entity_class)]
       end
 
-      id = params[params_id_name].presence
+      if request.headers[header_token_name(entity_class)].blank?
+        token = params[params_token_name]
+      else
+        token = request.headers[header_token_name(entity_class)]
+      end
+
       # See https://github.com/ryanb/cancan/blob/1.6.10/lib/cancan/controller_resource.rb#L108-L111
       entity = nil
       if entity_class.respond_to? "find_by"
@@ -49,7 +53,7 @@ module SimpleTokenAuthentication
       # Notice how we use Devise.secure_compare to compare the token
       # in the database with the token given in the params, mitigating
       # timing attacks.
-      if entity && Devise.secure_compare(entity.authentication_token, params[params_token_name])
+      if entity && Devise.secure_compare(entity.authentication_token, token)
         # Sign in using token should not be tracked by Devise trackable
         # See https://github.com/plataformatec/devise/issues/953
         env["devise.skip_trackable"] = true
