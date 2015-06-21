@@ -31,14 +31,18 @@ module SimpleTokenAuthentication
       params_id_name = "#{entity_class.name.singularize.underscore}_id".to_sym
 
       if request.headers[header_id_name(entity_class)].blank?
+        puts 'User ID header not found, using param'
         id = params[params_id_name]
       else
+        puts 'User ID header found'
         id = request.headers[header_id_name(entity_class)]
       end
 
       if request.headers[header_token_name(entity_class)].blank?
+        puts 'Token header not found, using param'
         token = params[params_token_name]
       else
+        puts 'Token header found'
         token = request.headers[header_token_name(entity_class)]
       end
 
@@ -50,10 +54,15 @@ module SimpleTokenAuthentication
         entity = id && entity_class.find_by_id(id)
       end
 
+      puts 'Hello from simple_token_authentication'
+
       # Notice how we use Devise.secure_compare to compare the token
       # in the database with the token given in the params, mitigating
       # timing attacks.
       if entity && Devise.secure_compare(entity.authentication_token, token)
+
+        puts 'Token matches, signing in'
+
         # Sign in using token should not be tracked by Devise trackable
         # See https://github.com/plataformatec/devise/issues/953
         env["devise.skip_trackable"] = true
